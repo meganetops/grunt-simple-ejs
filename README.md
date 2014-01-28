@@ -1,11 +1,11 @@
 grunt-simple-ejs
 ================
 
-process ejs template
+オプションにincludePathを追加してみた。
+テンプレートのejsファイルのincludeの指定をシンプルにできます。
+includePathで指定したディレクトリをルートとして
+includeで書かれたファイルを参照するように。
 
-## usage
-
-```javascript
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -16,6 +16,7 @@ module.exports = function(grunt) {
                template: [ '*.ejs', 'article/*.ejs' ],
                dest: './',
                include: ['bower_components/external-templates/*.ejs'],
+               includePath: './examples/src/ejs/include'
                options: [ 'option.dev.json', { env: 'dev' } ]
            }
         }

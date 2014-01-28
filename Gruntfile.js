@@ -7,7 +7,8 @@ module.exports = function(grunt) {
                template: [ 'examples/src/ejs/*.ejs' ],
                dest: './examples/',
                options: [ { env: 'dev' } ],
-               withExtensions: true
+               withExtensions: true,
+               includePath: './examples/src/ejs/include'
            }
         },
 

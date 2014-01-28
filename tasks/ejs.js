@@ -36,6 +36,25 @@ module.exports = function (grunt) {
                 var srcPath = file.src[0];
                 var source = grunt.file.read(srcPath);
 
+/* //////////////
+ここから
+////////////// */
+                if(config.includePath) {
+                    // <%include %>が記述されているファイルから
+                    // includePathへの相対パスを取得
+                    relativePath = path.relative(path.dirname(srcPath),config.includePath);
+                    // relativeで最後にスラッシュが入らないので入れておく
+                    if(!/\//.test(relativePath.length-1)){
+                        relativePath = relativePath+"/";
+                    }
+                    reg = new RegExp("<% include (.*) ?%>","i");
+                    //ソース内のinclude指定を置換
+                    source = source.replace(reg,"<% include "+relativePath+"$1 %>");    
+                }
+/* //////////////
+ここまで
+////////////// */ 
+
                 // embed include ejs
                 var includeStatements = [];
                 include.forEach(function (pattern) {
@@ -51,7 +70,7 @@ module.exports = function (grunt) {
                     }
                 });
                 source = includeStatements.join('') + source;
-
+   
                 options.filename = srcPath;
                 grunt.file.write(
                     file.dest,
